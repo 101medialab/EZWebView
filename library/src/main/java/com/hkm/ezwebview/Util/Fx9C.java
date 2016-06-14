@@ -205,9 +205,9 @@ public class Fx9C {
         //block.setScrollContainer(false);
         //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            block.loadDataWithBaseURL("", css + codeing, "text/html; charset=utf-8", "UTF-8", null);
+            block.loadDataWithBaseURL("", css + codeing, "text/html", "UTF-8", null);
         } else {
-            block.loadDataWithBaseURL("", codeing, "text/html; charset=utf-8", "UTF-8", null);
+            block.loadDataWithBaseURL("", codeing, "text/html", "UTF-8", null);
         }
         block.setVisibility(View.VISIBLE);
         if (callback_webview == null)
@@ -240,7 +240,7 @@ public class Fx9C {
         //block.setScrollContainer(false);
         //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
+            block.loadDataWithBaseURL("", content_code_final, "text/html", "UTF-8", null);
         } else {
             block.loadDataWithBaseURL("", codeing, "text/html", "UTF-8", null);
         }
