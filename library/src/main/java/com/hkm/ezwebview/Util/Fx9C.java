@@ -17,7 +17,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
+import com.hkm.ezwebview.BuildConfig;
 import com.hkm.ezwebview.R;
+import com.hkm.ezwebview.models.WebContent;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.FBClient;
 import com.hkm.ezwebview.webviewclients.HClient;
@@ -25,9 +27,6 @@ import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -37,6 +36,7 @@ import java.util.List;
  * This is the container library for display the efficient commands from the APIs
  */
 public class Fx9C {
+
     public static void startToReveal(final ViewGroup view) {
         startToReveal(view, 1800);
     }
@@ -53,27 +53,27 @@ public class Fx9C {
         startToReveal(view, 800, callback);
     }
 
-    public static void startToReveal(final ViewGroup view, final int timeinit, final Runnable callback) {
+    public static void startToReveal(final ViewGroup view, final long animateDuration, final Runnable callback) {
         final Handler h = new Handler();
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0f);
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCompat.animate(view).setDuration((long) timeinit)
+                ViewCompat.animate(view).setDuration(animateDuration)
                         .alpha(1f).withEndAction(callback);
             }
         }, 80);
     }
 
-    public static void startToReveal(final ViewGroup view, final int timeinit) {
+    public static void startToReveal(final ViewGroup view, final long animateDuration) {
         final Handler h = new Handler();
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0f);
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCompat.animate(view).setDuration((long) timeinit)
+                ViewCompat.animate(view).setDuration(animateDuration)
                         .alpha(1f);
             }
         }, 80);
@@ -144,6 +144,7 @@ public class Fx9C {
         setup_content_block_wb(context, frame_holder, block, codeing, 1500, hasVideo, c, cb);
     }
 
+    @Deprecated
     public static <T> void setup_web_video(
             final T context,
             final RelativeLayout frame_holder,
@@ -155,6 +156,7 @@ public class Fx9C {
         setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, url_check_callback, null);
     }
 
+    @Deprecated
     public static <T> void setup_web_video(
             final T context,
             final RelativeLayout frame_holder,
@@ -166,7 +168,6 @@ public class Fx9C {
     ) throws Exception {
         setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, url_check_callback, reveal_callback);
     }
-
 
     public static <T> void setup_content_block_custom_css(
             final T context,
@@ -252,6 +253,7 @@ public class Fx9C {
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
 
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     private static <T> void setup_web_video(
             final T context,
@@ -272,7 +274,7 @@ public class Fx9C {
         if (on_url_passing != null) I2.setController(on_url_passing);
         mVideo.setWebViewClient(I2);
         mVideo.getSettings().setJavaScriptEnabled(true);
-        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html", "UTF-8", null);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
         mVideo.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
@@ -280,7 +282,7 @@ public class Fx9C {
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
 
-
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     public static <T> void setup_web_video(
             final T context,
@@ -309,14 +311,13 @@ public class Fx9C {
         if (on_url_passing != null) I2.setController(on_url_passing);
         mVideo.setWebViewClient(I2);
         mVideo.getSettings().setJavaScriptEnabled(true);
-        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html", "UTF-8", null);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
         mVideo.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
         else
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
-
 
     /**
      * display facebook comment box
@@ -450,33 +451,6 @@ public class Fx9C {
         }
     }
 
-
-    public static void setup_template_body_overhead(
-            final Activity context,
-            final RelativeLayout frame_holder,
-            final NonLeakingWebView block,
-            final String template_body,
-            final String codeing,
-            final int reveal_time,
-            final boolean withVideoElements,
-            final HClient.Callback urlByPass,
-            final Runnable callback_webview
-    ) throws Exception {
-        HClient I2 = HClient.with(context, block);
-        if (urlByPass != null) I2.setController(urlByPass);
-        block.setWebViewClient(I2);
-        if (withVideoElements) {
-            block.setWebChromeClient(new ChromeLoader());
-            block.getSettings().setJavaScriptEnabled(true);
-        }
-        block.loadDataWithBaseURL("", In32.mergeTemplateHtml(template_body, codeing), "text/html", "UTF-8", null);
-        block.setVisibility(View.VISIBLE);
-        if (callback_webview == null)
-            Fx9C.startToReveal(frame_holder, reveal_time);
-        else
-            Fx9C.startToReveal(frame_holder, reveal_time, callback_webview);
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(
             final T paymentGateWay,
@@ -587,5 +561,112 @@ public class Fx9C {
         } catch (Exception e) {
         }
         return killable;
+    }
+
+    /**
+     * intermediate implementation to encapsulate Fx9C and provide consistent api
+     */
+    protected final String DEFAULT_MIME_TYPE = "text/html";
+    protected final String DEFAULT_ENCODING = "UTF-8";
+
+    protected Context context;
+    protected boolean allowHTTPSMixedContent = false;
+    protected long animateDuration;
+    protected String baseUrl = "";
+    protected boolean isJavaScriptEnabled = true;
+    protected WebContent webContent = new WebContent();
+    protected Runnable onCompleteCallback = null;
+    protected CircleProgressBar progressBar = null;
+
+    public static Fx9C with(Context context) {
+        return new Fx9C(context);
+    }
+
+    private Fx9C() {
+    }
+
+    private Fx9C(Context context) {
+        super();
+        this.context = context;
+        animateDuration = 500;  /* default duration value for webview visibility transition animation */
+    }
+
+    public Fx9C setAllowHTTPSMixedContent(boolean allow) {
+        allowHTTPSMixedContent = allow;
+        return this;
+    }
+
+    public Fx9C setAnimationDuration(long animationDuration) {
+        this.animateDuration = animationDuration;
+        return this;
+    }
+
+    public Fx9C setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+        return this;
+    }
+
+    public Fx9C setJavaScriptEnabled(boolean isJavaScriptEnabled) {
+        this.isJavaScriptEnabled = isJavaScriptEnabled;
+        return this;
+    }
+
+    public Fx9C setWebContent(WebContent webContent) {
+        this.webContent = webContent;
+        return this;
+    }
+
+    public Fx9C setOnCompleteCallback(Runnable callback) {
+        onCompleteCallback = callback;
+        return this;
+    }
+
+    public Fx9C setProgressBar(CircleProgressBar progressBar) {
+        this.progressBar = progressBar;
+        return this;
+    }
+
+    public void loadWebContentIntoWebView(
+            final RelativeLayout viewHolder,
+            final NonLeakingWebView webView,
+            final HClient.Callback hClientCallback
+    ) throws Exception {
+        if (baseUrl == null) {
+            baseUrl = "";
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        }
+
+        HClient I2 = HClient.with(context, webView);
+        if (hClientCallback != null) I2.setController(hClientCallback);
+        webView.setWebViewClient(I2);
+        webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
+        if (progressBar == null) {
+            webView.setWebChromeClient(new ChromeLoader());
+        } else {
+            webView.setWebChromeClient(new ChromeLoader(progressBar));
+        }
+        webView.loadDataWithBaseURL(baseUrl, webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, null);
+        webView.setVisibility(View.VISIBLE);
+        if (onCompleteCallback == null) {
+            Fx9C.startToReveal(viewHolder, animateDuration);
+        } else {
+            Fx9C.startToReveal(viewHolder, animateDuration, onCompleteCallback);
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public void loadWebVideoContentIntoWebView(
+            final RelativeLayout viewHolder,
+            final NonLeakingWebView webView,
+            final HClient.Callback hClientCallback) throws Exception {
+
+        setJavaScriptEnabled(true); /* needs that for video playback */
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+
+        loadWebContentIntoWebView(viewHolder, webView, hClientCallback);
     }
 }

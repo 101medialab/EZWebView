@@ -111,12 +111,10 @@ public abstract class BasicWebView extends Fragment {
             if (block.getVisibility() != View.GONE && block != null) {
                 block.setVisibility(View.GONE);
                 block.loadUrl("about:blank");
-                //block.destroy();
             }
         } else if (mWebView.getVisibility() != View.GONE) {
             mWebView.setVisibility(View.GONE);
             mWebView.loadUrl("about:blank");
-            //mWebView.destroy();
         }
     }
 
