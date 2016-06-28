@@ -579,7 +579,6 @@ public class Fx9C {
     protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
     protected WebViewClient webViewClient = null;
     protected boolean isJavaScriptEnabled = true;
-    protected WebContent webContent = new WebContent();
     protected RelativeLayout webViewHolder;
     protected WebView webView;
     protected ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
@@ -630,12 +629,7 @@ public class Fx9C {
         this.isJavaScriptEnabled = isJavaScriptEnabled;
         return this;
     }
-
-    public Fx9C setWebContent(WebContent webContent) {
-        this.webContent = webContent;
-        return this;
-    }
-
+    
     public Fx9C setOnCloseWindowCallback(ChromeLoader.OnCloseWindowCallback onCloseWindowCallback) {
         this.onCloseWindowCallback = onCloseWindowCallback;
         return this;
