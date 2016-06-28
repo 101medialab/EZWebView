@@ -12,43 +12,64 @@ import java.io.Serializable;
  */
 public class WebContent implements Serializable {
     private static final long serialVersionUID = 3948213449011464695L;
+    protected String baseUrl;
     protected String template;
     protected String content;
+    protected String historyUrl;
 
     public WebContent() {
+        baseUrl = "";
         template = "";
         content = "";
+        historyUrl = "";
     }
 
     public WebContent(String webContent) {
         template = webContent;
     }
 
-    public WebContent(String template, String content) {
+    public WebContent(String baseUrl, String template, String content) {
+        this.baseUrl = baseUrl;
         this.template = template;
         this.content = content;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public WebContent setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+        return this;
+    }
+
+    public String getHistoryUrl() {
+        return historyUrl;
     }
 
     public String getTemplate() {
         return template;
     }
 
-    public void setTemplate(String template) {
+    public WebContent setTemplate(String template) {
         this.template = template;
+        return this;
     }
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public WebContent setContent(String content) {
         this.content = content;
+        return this;
     }
 
-    public void appendCSS(String cssCode) {
+    public WebContent appendCSS(String cssCode) {
         Document document = Jsoup.parse(template);
         document.head().append(String.format("<script type=\"text/css\">%s</script>", cssCode));
         template = document.outerHtml();
+        return this;
     }
 
     public String getRenderedHtml() {

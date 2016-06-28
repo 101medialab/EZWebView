@@ -1,7 +1,6 @@
 package com.hkm.ezwebview.webviewclients;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.webkit.WebView;
@@ -23,6 +22,11 @@ public class ChromeLoader extends PreventLeakClientChrome {
     private String loadingText;
     private CharSequence barTitle;
     private int time_of_fade = 0;
+    protected OnCloseWindowCallback onCloseWindowCallback = null;
+
+    public interface OnCloseWindowCallback {
+        public void onCloseWindow(WebView window);
+    }
 
     public ChromeLoader(CircleProgressBar circlebar, int time_fade) {
         this(circlebar);
@@ -57,10 +61,23 @@ public class ChromeLoader extends PreventLeakClientChrome {
         return this;
     }
 
-    public ChromeLoader setLoadingText(String b) {
-        loadingText = b;
+    public ChromeLoader setLoadingText(String loadingText) {
+        this.loadingText = loadingText;
         withLoadingText = true;
         return this;
+    }
+
+    public ChromeLoader setOnCloseWindowCallback(OnCloseWindowCallback onCloseWindowCallback) {
+        this.onCloseWindowCallback = onCloseWindowCallback;
+        return this;
+    }
+
+    @Override
+    public void onCloseWindow(WebView window) {
+        super.onCloseWindow(window);
+        if (onCloseWindowCallback != null) {
+            onCloseWindowCallback.onCloseWindow(window);
+        }
     }
 
     @Override

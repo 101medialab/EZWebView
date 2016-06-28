@@ -1,25 +1,11 @@
 Advanced Webview [![Build Status](https://travis-ci.org/jjhesk/EZWebView.svg?branch=master)](https://travis-ci.org/jjhesk/EZWebView)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)[ ![Download](https://api.bintray.com/packages/jjhesk/maven/ezwebviewv/images/download.svg) ](https://bintray.com/jjhesk/maven/ezwebviewv/_latestVersion)
 ======
-Lastest Version v1.3.6
+Lastest Version v1.4.1
 =======
 
-
-Feature list
-- [x] handler Google SSL alert #2
-- [x] no more memory leak issue in video iframe
-- [x] easy web page margin fixed
-- [x] easy web video implementation
-- [x] easy web content display implementation
-- [x] took care of life cycle issues
-- [x] fantasy animation reveal fade in
-- [x] ```UriFactory``` set
-- [x] ```Fx9C``` set
-- [x] ```In32``` set
-- [x] ```CommentBoxUrl``` resolve facebook, weibo, popbee comment issues
-
-Download for the [Sample APK][2]
-
-For initiating a webview, simply thing to do this to do it once for all.
+Highlights
+- [x] New self-explanatory API
+- [x] Encapsulated WebContent implementation
 
 [Demo example code][1]
 

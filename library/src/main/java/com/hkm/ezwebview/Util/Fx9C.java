@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.BuildConfig;
@@ -36,6 +38,7 @@ import java.util.List;
  * This is the container library for display the efficient commands from the APIs
  */
 public class Fx9C {
+    private static final String TAG = Fx9C.class.getSimpleName();
 
     public static void startToReveal(final ViewGroup view) {
         startToReveal(view, 1800);
@@ -573,16 +576,28 @@ public class Fx9C {
     protected boolean allowHTTPSMixedContent = false;
     protected long animateDuration;
     protected String baseUrl = "";
+    protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
+    protected WebViewClient webViewClient = null;
     protected boolean isJavaScriptEnabled = true;
     protected WebContent webContent = new WebContent();
+    protected RelativeLayout webViewHolder;
+    protected WebView webView;
+    protected ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
     protected Runnable onCompleteCallback = null;
     protected CircleProgressBar progressBar = null;
+    protected String userAgent = null;
 
     public static Fx9C with(Context context) {
         return new Fx9C(context);
     }
 
     private Fx9C() {
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            CookieSyncManager.getInstance().sync();
+        }
+        cookieManager.setAcceptCookie(true);
+        cacheMode = CacheMode.LOAD_DEFAULT;
     }
 
     private Fx9C(Context context) {
@@ -606,6 +621,11 @@ public class Fx9C {
         return this;
     }
 
+    public Fx9C setCacheMode(CacheMode cacheMode) {
+        this.cacheMode = cacheMode;
+        return this;
+    }
+
     public Fx9C setJavaScriptEnabled(boolean isJavaScriptEnabled) {
         this.isJavaScriptEnabled = isJavaScriptEnabled;
         return this;
@@ -613,6 +633,11 @@ public class Fx9C {
 
     public Fx9C setWebContent(WebContent webContent) {
         this.webContent = webContent;
+        return this;
+    }
+
+    public Fx9C setOnCloseWindowCallback(ChromeLoader.OnCloseWindowCallback onCloseWindowCallback) {
+        this.onCloseWindowCallback = onCloseWindowCallback;
         return this;
     }
 
@@ -626,47 +651,113 @@ public class Fx9C {
         return this;
     }
 
-    public void loadWebContentIntoWebView(
-            final RelativeLayout viewHolder,
-            final NonLeakingWebView webView,
-            final HClient.Callback hClientCallback
-    ) throws Exception {
-        if (baseUrl == null) {
-            baseUrl = "";
+    public Fx9C setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
+
+    public Fx9C setWebViewHolder(RelativeLayout layout) {
+        webViewHolder = layout;
+        return this;
+    }
+
+    public Fx9C setWebView(@NonNull WebView webView) {
+        this.webView = webView;
+        if (userAgent != null) {
+            this.webView.getSettings().setUserAgentString(userAgent);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+        }
+        return this;
+    }
+
+    public Fx9C setWebViewClient(WebViewClient client) {
+        this.webViewClient = client;
+        return this;
+    }
+
+    /**
+     * @param callback
+     * @return
+     * @throws Exception if context is not defined or not of fragment / AppCompatActivity
+     */
+    public Fx9C setDefaultWebViewClientWithCallback(HClient.Callback callback) throws Exception {
+        HClient webViewClient = HClient.with(context, webView);
+
+        if (callback != null) {
+            webViewClient.setController(callback);
         }
 
+        this.webViewClient = webViewClient;
+        return this;
+    }
+
+    protected void updateWebViewCacheMode() {
+        switch (cacheMode) {
+            case LOAD_DEFAULT:
+                webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+                break;
+            case LOAD_NO_CACHE:
+                webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                break;
+        }
+    }
+
+    protected void updateWebChromeClient() {
+        ChromeLoader webChromeClient = null;
+        if (progressBar == null) {
+            webChromeClient = new ChromeLoader();
+        } else {
+            webChromeClient = new ChromeLoader(progressBar);
+        }
+        if (onCloseWindowCallback != null) {
+            webChromeClient.setOnCloseWindowCallback(onCloseWindowCallback);
+        }
+        webView.setWebChromeClient(webChromeClient);
+    }
+
+    public void loadUrl(String url) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         }
 
-        HClient I2 = HClient.with(context, webView);
-        if (hClientCallback != null) I2.setController(hClientCallback);
-        webView.setWebViewClient(I2);
+        if (webViewClient != null) {
+            webView.setWebViewClient(webViewClient);
+        }
+        webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
+        updateWebChromeClient();
+        updateWebViewCacheMode();
+        webView.loadUrl(url);
+        webView.setVisibility(View.VISIBLE);
+        if (onCompleteCallback == null) {
+            Fx9C.startToReveal(webViewHolder, animateDuration);
+        } else {
+            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
+        }
+    }
+
+    public void loadWebContent(WebContent webContent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        }
+
+        if (webViewClient != null) {
+            webView.setWebViewClient(webViewClient);
+        }
         webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
         if (progressBar == null) {
             webView.setWebChromeClient(new ChromeLoader());
         } else {
             webView.setWebChromeClient(new ChromeLoader(progressBar));
         }
-        webView.loadDataWithBaseURL(baseUrl, webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, null);
+        updateWebViewCacheMode();
+        webView.loadDataWithBaseURL(webContent.getBaseUrl(), webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, webContent.getHistoryUrl());
         webView.setVisibility(View.VISIBLE);
         if (onCompleteCallback == null) {
-            Fx9C.startToReveal(viewHolder, animateDuration);
+            Fx9C.startToReveal(webViewHolder, animateDuration);
         } else {
-            Fx9C.startToReveal(viewHolder, animateDuration, onCompleteCallback);
+            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
         }
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    public void loadWebVideoContentIntoWebView(
-            final RelativeLayout viewHolder,
-            final NonLeakingWebView webView,
-            final HClient.Callback hClientCallback) throws Exception {
-
-        setJavaScriptEnabled(true); /* needs that for video playback */
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-
-        loadWebContentIntoWebView(viewHolder, webView, hClientCallback);
     }
 }
