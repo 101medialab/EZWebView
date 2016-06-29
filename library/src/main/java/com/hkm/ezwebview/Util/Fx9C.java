@@ -577,6 +577,7 @@ public class Fx9C {
     protected long animateDuration;
     protected String baseUrl = "";
     protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
+    protected boolean enableChromeDebug = false;
     protected WebViewClient webViewClient = null;
     protected boolean isJavaScriptEnabled = true;
     protected RelativeLayout webViewHolder;
@@ -622,6 +623,11 @@ public class Fx9C {
 
     public Fx9C setCacheMode(CacheMode cacheMode) {
         this.cacheMode = cacheMode;
+        return this;
+    }
+
+    public Fx9C setEnableChromeDebug(boolean enableDebug) {
+        enableChromeDebug = enableDebug;
         return this;
     }
 
@@ -713,7 +719,7 @@ public class Fx9C {
 
     public void loadUrl(String url) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+            webView.setWebContentsDebuggingEnabled(enableChromeDebug||BuildConfig.DEBUG);
         }
 
         if (webViewClient != null) {
