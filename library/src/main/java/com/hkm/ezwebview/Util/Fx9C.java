@@ -573,6 +573,7 @@ public class Fx9C {
     protected final String DEFAULT_ENCODING = "UTF-8";
 
     protected Context context;
+    protected boolean allowAutomaticMediaPlayback = false;
     protected boolean allowHTTPSMixedContent = false;
     protected long animateDuration;
     protected String baseUrl = "";
@@ -604,6 +605,16 @@ public class Fx9C {
         super();
         this.context = context;
         animateDuration = 500;  /* default duration value for webview visibility transition animation */
+    }
+
+    /**
+     * Allow automatic media playback without user gesture
+     * required for SoundCloud to work properly
+     * @param allow
+     */
+    public Fx9C setAllowAutomaticMediaPlayback(boolean allow) {
+        allowAutomaticMediaPlayback = allow;
+        return this;
     }
 
     public Fx9C setAllowHTTPSMixedContent(boolean allow) {
@@ -726,6 +737,7 @@ public class Fx9C {
             webView.setWebViewClient(webViewClient);
         }
         webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
         updateWebChromeClient();
         updateWebViewCacheMode();
         webView.loadUrl(url);
@@ -746,6 +758,7 @@ public class Fx9C {
             webView.setWebViewClient(webViewClient);
         }
         webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
         if (progressBar == null) {
             webView.setWebChromeClient(new ChromeLoader());
         } else {
