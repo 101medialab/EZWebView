@@ -578,8 +578,9 @@ public class Fx9C {
     protected long animateDuration;
     protected String baseUrl = "";
     protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
-    protected boolean enableChromeDebug = false;
     protected WebViewClient webViewClient = null;
+    protected boolean isAppCacheEnabled = false;
+    protected boolean isChromeDebugEnabled = false;
     protected boolean isJavaScriptEnabled = true;
     protected RelativeLayout webViewHolder;
     protected WebView webView;
@@ -637,8 +638,13 @@ public class Fx9C {
         return this;
     }
 
-    public Fx9C setEnableChromeDebug(boolean enableDebug) {
-        enableChromeDebug = enableDebug;
+    public Fx9C setChromeDebugEnabled(boolean isChromeDebugEnabled) {
+        this.isChromeDebugEnabled = isChromeDebugEnabled;
+        return this;
+    }
+
+    public Fx9C setAppCacheEnabled(boolean isAppCacheEnabled) {
+        this.isAppCacheEnabled = isAppCacheEnabled;
         return this;
     }
 
@@ -675,7 +681,8 @@ public class Fx9C {
     public Fx9C setWebView(@NonNull WebView webView) {
         this.webView = webView;
         if (userAgent != null) {
-            this.webView.getSettings().setUserAgentString(userAgent);
+            WebSettings settings = this.webView.getSettings();
+            settings.setUserAgentString(String.format("%s %s", settings.getUserAgentString(), userAgent));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
@@ -730,7 +737,7 @@ public class Fx9C {
 
     public void loadUrl(String url) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(enableChromeDebug||BuildConfig.DEBUG);
+            webView.setWebContentsDebuggingEnabled(isChromeDebugEnabled ||BuildConfig.DEBUG);
         }
 
         if (webViewClient != null) {
