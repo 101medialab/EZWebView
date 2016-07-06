@@ -728,7 +728,7 @@ public class Fx9C {
         webView.setWebChromeClient(webChromeClient);
     }
 
-    public void loadUrl(String url) throws Exception {
+    public void loadUrl(String url) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(enableChromeDebug||BuildConfig.DEBUG);
         }
