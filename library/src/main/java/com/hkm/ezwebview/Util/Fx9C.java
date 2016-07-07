@@ -389,6 +389,7 @@ public class Fx9C {
         }
     }
 
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(
             final T paymentGateWay,
@@ -454,6 +455,7 @@ public class Fx9C {
         }
     }
 
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(
             final T paymentGateWay,
@@ -583,7 +585,7 @@ public class Fx9C {
     protected boolean isChromeDebugEnabled = false;
     protected boolean isJavaScriptEnabled = true;
     protected RelativeLayout webViewHolder;
-    protected WebView webView;
+    protected WebView webView = null;
     protected ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
     protected Runnable onCompleteCallback = null;
     protected CircleProgressBar progressBar = null;
@@ -668,6 +670,11 @@ public class Fx9C {
         return this;
     }
 
+    public Fx9C setDefaultUserWithSuffix(String suffix) {
+        this.userAgent = String.format("%s %s", WebSettings.getDefaultUserAgent(context), suffix);
+        return this;
+    }
+
     public Fx9C setUserAgent(String userAgent) {
         this.userAgent = userAgent;
         return this;
@@ -680,10 +687,7 @@ public class Fx9C {
 
     public Fx9C setWebView(@NonNull WebView webView) {
         this.webView = webView;
-        if (userAgent != null) {
-            WebSettings settings = this.webView.getSettings();
-            settings.setUserAgentString(String.format("%s %s", settings.getUserAgentString(), userAgent));
-        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
         }
@@ -735,18 +739,32 @@ public class Fx9C {
         webView.setWebChromeClient(webChromeClient);
     }
 
-    public void loadUrl(String url) {
+    protected void updateWebViewSettings() {
+        if (webView == null) {
+            throw new IllegalArgumentException("webview is not initialized before loading web content");
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(isChromeDebugEnabled ||BuildConfig.DEBUG);
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         }
 
         if (webViewClient != null) {
             webView.setWebViewClient(webViewClient);
         }
-        webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+
+        WebSettings settings = this.webView.getSettings();
+        if (userAgent != null) {
+            settings.setUserAgentString(String.format("%s %s", settings.getUserAgentString(), userAgent));
+        }
+
+        settings.setJavaScriptEnabled(isJavaScriptEnabled);
+        settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
         updateWebChromeClient();
         updateWebViewCacheMode();
+    }
+
+    public void loadUrl(String url) {
+        updateWebViewSettings();
         webView.loadUrl(url);
         webView.setVisibility(View.VISIBLE);
         if (onCompleteCallback == null) {
@@ -757,21 +775,7 @@ public class Fx9C {
     }
 
     public void loadWebContent(WebContent webContent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
-        }
-
-        if (webViewClient != null) {
-            webView.setWebViewClient(webViewClient);
-        }
-        webView.getSettings().setJavaScriptEnabled(isJavaScriptEnabled);
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
-        if (progressBar == null) {
-            webView.setWebChromeClient(new ChromeLoader());
-        } else {
-            webView.setWebChromeClient(new ChromeLoader(progressBar));
-        }
-        updateWebViewCacheMode();
+        updateWebViewSettings();
         webView.loadDataWithBaseURL(webContent.getBaseUrl(), webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, webContent.getHistoryUrl());
         webView.setVisibility(View.VISIBLE);
         if (onCompleteCallback == null) {
