@@ -24,10 +24,6 @@ public class WebContent implements Serializable {
         historyUrl = "";
     }
 
-    public WebContent(String webContent) {
-        template = webContent;
-    }
-
     public WebContent(String baseUrl, String template, String content) {
         this.baseUrl = baseUrl;
         this.template = template;
@@ -73,6 +69,9 @@ public class WebContent implements Serializable {
     }
 
     public String getRenderedHtml() {
+        if (template == null || template.equals("")) {
+            return content;
+        }
         return In32.mergeTemplateHtml(template, content);
     }
 
