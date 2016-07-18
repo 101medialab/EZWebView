@@ -82,6 +82,7 @@ public class Fx9C {
         }, 80);
     }
 
+    @Deprecated
     public static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -100,6 +101,7 @@ public class Fx9C {
                 null);
     }
 
+    @Deprecated
     public static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -117,6 +119,7 @@ public class Fx9C {
                 null);
     }
 
+    @Deprecated
     public static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -135,6 +138,7 @@ public class Fx9C {
                 afterEverythingIsDone);
     }
 
+    @Deprecated
     public static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -220,6 +224,7 @@ public class Fx9C {
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
 
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     private static <T> void setup_content_block_wb(
             final T context,
@@ -333,6 +338,7 @@ public class Fx9C {
      * @param reveal_time     the time to reveal
      * @param <T>             the generic type
      */
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     public static <T> void setup_commentbox(
             final T context,
@@ -372,6 +378,7 @@ public class Fx9C {
         return sb.toString();
     }
 
+    @Deprecated
     public static void setup_content_block_wb(
             final RelativeLayout frame_holder,
             final WebView block,
@@ -745,7 +752,7 @@ public class Fx9C {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG||isChromeDebugEnabled);
         }
 
         if (webViewClient != null) {

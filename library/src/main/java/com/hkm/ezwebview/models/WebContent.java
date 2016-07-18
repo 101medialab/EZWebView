@@ -67,7 +67,7 @@ public class WebContent implements Serializable {
 
     public WebContent appendCSS(String cssCode) {
         Document document = Jsoup.parse(template);
-        document.head().append(String.format("<script type=\"text/css\">%s</script>", cssCode));
+        document.head().append(String.format("<style type=\"text/css\">%s</style>", cssCode));
         template = document.outerHtml();
         return this;
     }
