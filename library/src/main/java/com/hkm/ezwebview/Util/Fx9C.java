@@ -677,7 +677,7 @@ public class Fx9C {
         return this;
     }
 
-    public Fx9C setDefaultUserWithSuffix(String suffix) {
+    public Fx9C setDefaultUserAgentWithSuffix(String suffix) {
         this.userAgent = String.format("%s %s", WebSettings.getDefaultUserAgent(context), suffix);
         return this;
     }
@@ -761,7 +761,13 @@ public class Fx9C {
 
         WebSettings settings = this.webView.getSettings();
         if (userAgent != null) {
-            settings.setUserAgentString(String.format("%s %s", settings.getUserAgentString(), userAgent));
+            settings.setUserAgentString(userAgent);
+        }
+
+        if (allowHTTPSMixedContent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            }
         }
 
         settings.setJavaScriptEnabled(isJavaScriptEnabled);
