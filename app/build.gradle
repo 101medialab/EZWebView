@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.hkm.ezwebviewsample"
-        minSdkVersion 17
-        targetSdkVersion 23
+        minSdkVersion "${ANDROID_BUILD_MIN_SDK_VERSION}"
+        targetSdkVersion "${ANDROID_BUILD_TARGET_SDK_VERSION}"
         versionCode 3
         versionName "1.1"
     }
