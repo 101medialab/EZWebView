@@ -678,7 +678,12 @@ public class Fx9C {
     }
 
     public Fx9C setDefaultUserAgentWithSuffix(String suffix) {
-        this.userAgent = String.format("%s %s", WebSettings.getDefaultUserAgent(context), suffix);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            this.userAgent = String.format("%s %s", WebSettings.getDefaultUserAgent(context), suffix);
+        } else {
+            String jellyBeanDefaultUserAgent = "Mozilla/5.0 (Linux; U; Android 4.1.2; en-us; SCH-I535 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
+            this.userAgent = String.format("%s %s", jellyBeanDefaultUserAgent, suffix);
+        }
         return this;
     }
 
@@ -771,7 +776,9 @@ public class Fx9C {
         }
 
         settings.setJavaScriptEnabled(isJavaScriptEnabled);
-        settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+        }
         updateWebChromeClient();
         updateWebViewCacheMode();
     }
