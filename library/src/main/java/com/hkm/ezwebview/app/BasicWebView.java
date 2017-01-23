@@ -10,7 +10,6 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.R;
@@ -25,7 +24,7 @@ public abstract class BasicWebView extends Fragment {
     protected CircleProgressBar betterCircleBar;
     protected RelativeLayout framer;
 
-    protected int LayoutID() {
+    protected int getLayoutId() {
         return R.layout.webviewsimple;
     }
 
@@ -72,7 +71,7 @@ public abstract class BasicWebView extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(LayoutID(), container, false);
+        return inflater.inflate(getLayoutId(), container, false);
     }
 
     protected void completeloading() {

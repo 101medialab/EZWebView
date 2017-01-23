@@ -70,6 +70,11 @@ public class Fx9C {
     }
 
     public static void startToReveal(final ViewGroup view, final long animateDuration) {
+        if (view == null) {
+            Log.e(TAG, "view is null; ignoring call to startToReveal");
+            return;
+        }
+
         final Handler h = new Handler();
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0f);
@@ -327,49 +332,6 @@ public class Fx9C {
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
 
-    /**
-     * display facebook comment box
-     *
-     * @param context         context
-     * @param frame_holder    frame holder
-     * @param block           web view
-     * @param betterCircleBar circle loading bar
-     * @param url_id          the url id code
-     * @param reveal_time     the time to reveal
-     * @param <T>             the generic type
-     */
-    @Deprecated
-    @SuppressLint("SetJavaScriptEnabled")
-    public static <T> void setup_commentbox(
-            final T context,
-            final RelativeLayout frame_holder,
-            final NonLeakingWebView block,
-            final CircleProgressBar betterCircleBar,
-            final String url_id,
-            final int reveal_time
-    ) {
-        try {
-            block.setWebChromeClient(new ChromeLoader(betterCircleBar));
-            block.setWebViewClient(new FBClient(with(context), block));
-            //  block.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-            // block.getSettings().setSupportMultipleWindows(true);
-            block.getSettings().setPluginState(WebSettings.PluginState.ON);
-            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-            block.getSettings().setJavaScriptEnabled(true);
-            block.getSettings().setAppCacheEnabled(true);
-            block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-            if (url_id.equalsIgnoreCase("")) {
-                block.loadUrl(CommentBoxUrl.sampleFacebookCommentBox());
-            } else
-                block.loadUrl(CommentBoxUrl.popbeeCommentBox(url_id));
-            // Log.d("webview", ur);
-            block.setVisibility(View.VISIBLE);
-            Fx9C.startToReveal(frame_holder, reveal_time);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String UserAgentTag(WebSettings ws, String tag) {
         final StringBuilder sb = new StringBuilder();
         sb.append(ws.getUserAgentString());
@@ -453,7 +415,7 @@ public class Fx9C {
             block.getSettings().setBlockNetworkLoads(false);
             //block.enablecrossdomain_js();
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
-            block.loadDataWithBaseURL("http://hypetrak.com/?" + query, final_template_html, "text/html", "UTF-8", "");
+            block.loadDataWithBaseURL("http://www.example.com/?" + query, final_template_html, "text/html", "UTF-8", "");
             Log.d("dataLogWV", final_template_html);
             block.setVisibility(View.VISIBLE);
             startToReveal(frame_holder, reveal_time);

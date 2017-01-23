@@ -14,11 +14,6 @@
         android:title="offline text"
         app:showAsAction="never" />
     <item
-        android:id="@+id/comment"
-        android:orderInCategory="100"
-        android:title="FB comment"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/video_classic"
         android:orderInCategory="100"
         android:title="video block classic"

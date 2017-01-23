@@ -11,14 +11,14 @@ import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
 
-public class _main_act extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     FragmentTransaction FT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // ofFragment(new shoppingCart());
+       // ofFragment(new ShoppingCartWebViewFragment());
     }
 
 
@@ -44,23 +44,20 @@ public class _main_act extends AppCompatActivity {
             ofFragment(new hybridfragment());
             return true;
         } else if (id == R.id.textblock) {
-            ofFragment(new OfflineWeb());
+            ofFragment(new OfflineWebViewFragment());
             return true;
         } else if (id == R.id.video_classic) {
             //video block classic
-            ofFragment(new VideoFra());
-            return true;
-        } else if (id == R.id.comment) {
-            ofFragment(new commentboxfragment());
+            ofFragment(new VideoWebViewFragment());
             return true;
         } else if (id == R.id.shopppingcart) {
-            ofFragment(new shoppingCart());
+            ofFragment(new ShoppingCartWebViewFragment());
             return true;
         } else if (id == R.id.offlineSimpleView) {
-            ofFragment(new OfflinePlainWebView());
+            ofFragment(new OfflineEmbeddedWebViewFragment());
             return true;
         } else if (id == R.id.js_embeded) {
-            ofFragment(new comment_disqus_fragment());
+            ofFragment(new DisqusCommentFragment());
             return true;
         } else if (id == R.id.js_hack) {
             ofFragment(new FbVideoFragment());

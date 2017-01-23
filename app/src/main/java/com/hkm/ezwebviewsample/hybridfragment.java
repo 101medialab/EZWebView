@@ -34,9 +34,7 @@ public class hybridfragment extends Fragment implements URLClient.cb {
     private RelativeLayout framer;
 
     private List<String> getInternal() {
-        final List<String> h = new ArrayList<>();
-
-        return h;
+        return new ArrayList<>();
     }
 
     private List<String> getAllow() {
