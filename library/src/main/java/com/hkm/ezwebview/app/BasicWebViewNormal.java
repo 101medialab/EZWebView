@@ -14,14 +14,13 @@ import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.R;
-import com.hkm.ezwebview.videoenabledwebview.VideoEnabledWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 /**
  * Created by hesk on 23/9/15.
  */
 public abstract class BasicWebViewNormal extends Fragment {
-    protected VideoEnabledWebView block;
+    protected WebView block;
     protected CircleProgressBar betterCircleBar;
     protected RelativeLayout framer;
 
@@ -33,7 +32,7 @@ public abstract class BasicWebViewNormal extends Fragment {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void initBinding(View v) {
         betterCircleBar = (CircleProgressBar) v.findViewById(R.id.wv_simple_process);
-        block = (VideoEnabledWebView) v.findViewById(R.id.wv_content_block);
+        block = (WebView) v.findViewById(R.id.wv_content_block);
         framer = (RelativeLayout) v.findViewById(R.id.wv_simple_frame);
     }
 
