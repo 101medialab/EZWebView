@@ -16,7 +16,7 @@ public class WebviewCommentBox extends BasicWebView {
     }
 
     protected void setup_commentbox(String id) {
-        Fx9C.setup_commentbox(this, framer, block, betterCircleBar, id, 1600);
+//        Fx9C.setup_commentbox(this, framer, block, betterCircleBar, id, 1600);
     }
 
 }
