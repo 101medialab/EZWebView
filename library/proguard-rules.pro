@@ -6,3 +6,6 @@
 -keepclassmembers public interface com.hkm.ezwebview.webviewclients.HackContentClient.LoadListener {
     public *;
 }
+
+-keep public class com.hkm.ezwebview.** { public *; }
+-keep public interface com.hkm.ezwebview.** { public *; }

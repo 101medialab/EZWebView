@@ -23,7 +23,6 @@ import com.hkm.ezwebview.BuildConfig;
 import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.models.WebContent;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
-import com.hkm.ezwebview.webviewclients.FBClient;
 import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewclients.URLClient;

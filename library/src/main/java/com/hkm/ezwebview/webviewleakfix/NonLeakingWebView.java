@@ -22,15 +22,6 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
     private static Field sConfigCallback;
     private OnScrollChangedCallback mOnScrollChangedCallback;
 
-    static {
-        try {
-            sConfigCallback = Class.forName("android.webkit.BrowserFrame").getDeclaredField("sConfigCallback");
-            sConfigCallback.setAccessible(true);
-        } catch (Exception e) {
-            Log.e(TAG, "failed to configure webview", e);
-        }
-    }
-
     public void setWebViewClient(Class<T> client, AppCompatActivity context) {
         try {
             Class[] cArg = new Class[1]; //Our constructor has 3 arguments
