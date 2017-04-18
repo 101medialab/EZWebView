@@ -10,74 +10,70 @@ import android.view.MenuItem;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
+import com.hkm.ezwebviewsample.fragments.CardIoDemoFragment;
 
 public class MainActivity extends AppCompatActivity {
-    FragmentTransaction FT;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // ofFragment(new ShoppingCartWebViewFragment());
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.libVideoFragment) {
-            final String code = In32.fromFileRaw(this, R.raw.video_sample);
-            ofFragment(VideoFrameBox.with(code, 400));
-            return true;
-        } else if (id == R.id.libRichTx) {
-            final String code = In32.fromFileRaw(this, R.raw.sample_no_video);
-            ofFragment(RichTextBox.with(code));
-            return true;
-        } else if (id == R.id.hybrid) {
-            ofFragment(new hybridfragment());
-            return true;
-        } else if (id == R.id.textblock) {
-            ofFragment(new OfflineWebViewFragment());
-            return true;
-        } else if (id == R.id.video_classic) {
-            //video block classic
-            ofFragment(new VideoWebViewFragment());
-            return true;
-        } else if (id == R.id.shopppingcart) {
-            ofFragment(new ShoppingCartWebViewFragment());
-            return true;
-        } else if (id == R.id.offlineSimpleView) {
-            ofFragment(new OfflineEmbeddedWebViewFragment());
-            return true;
-        } else if (id == R.id.js_embeded) {
-            ofFragment(new DisqusCommentFragment());
-            return true;
-        } else if (id == R.id.js_hack) {
-            ofFragment(new FbVideoFragment());
-            return true;
+        switch (item.getItemId()) {
+            case R.id.libVideoFragment: {
+                final String code = In32.fromFileRaw(this, R.raw.video_sample);
+                ofFragment(VideoFrameBox.with(code, 400));
+                break;
+            }
+            case R.id.libRichTx: {
+                final String code = In32.fromFileRaw(this, R.raw.sample_no_video);
+                ofFragment(RichTextBox.with(code));
+                break;
+            }
+            case R.id.hybrid: {
+                ofFragment(new hybridfragment());
+                break;
+            }
+            case R.id.textblock: {
+                ofFragment(new OfflineWebViewFragment());
+                break;
+            }
+            case R.id.video_classic: {
+                ofFragment(new VideoWebViewFragment());
+                break;
+            }
+            case R.id.shopppingcart: {
+                ofFragment(new ShoppingCartWebViewFragment());
+                break;
+            }
+            case R.id.offlineSimpleView: {
+                ofFragment(new OfflineEmbeddedWebViewFragment());
+                break;
+            }
+            case R.id.card_io_demo: {
+                ofFragment(CardIoDemoFragment.newInstance());
+                break;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     protected void ofFragment(Fragment claz) {
-        FT = getFragmentManager().beginTransaction();
-        FT.replace(R.id.fragment_fcfx, claz, "ClaTrans").addToBackStack(null).commit();
-    }
-
-    protected void test_main() {
-        final In32.cssFileListenr f = new In32.cssFileListenr() {
-            @Override
-            public void readFile(String html_css) {
-
-            }
-        };
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_fcfx, claz, "ClaTrans").addToBackStack(null).commit();
     }
 }

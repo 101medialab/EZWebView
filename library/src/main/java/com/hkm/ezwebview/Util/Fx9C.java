@@ -387,7 +387,7 @@ public class Fx9C {
         }
     }
 
-
+    @Deprecated
     @SuppressLint("SetJavaScriptEnabled")
     public static void setup_embedded_js_template(
             final RelativeLayout frame_holder,
