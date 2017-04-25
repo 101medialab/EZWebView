@@ -31,6 +31,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hesk on 6/8/15.
@@ -747,6 +748,17 @@ public class Fx9C {
     public void loadUrl(String url) {
         updateWebViewSettings();
         webView.loadUrl(url);
+        webView.setVisibility(View.VISIBLE);
+        if (onCompleteCallback == null) {
+            Fx9C.startToReveal(webViewHolder, animateDuration);
+        } else {
+            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
+        }
+    }
+
+    public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
+        updateWebViewSettings();
+        webView.loadUrl(url, additionalHttpHeaders);
         webView.setVisibility(View.VISIBLE);
         if (onCompleteCallback == null) {
             Fx9C.startToReveal(webViewHolder, animateDuration);
