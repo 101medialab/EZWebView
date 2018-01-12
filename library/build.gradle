@@ -1,22 +1,22 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
     def libPrefix = 'ezwebview-'
 
     defaultConfig {
-        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION
-        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION
+        minSdkVersion ANDROID_BUILD_MIN_SDK_VERSION
+        targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION
         versionCode getVersionCode()
-        versionName project.VERSION_NAME
+        versionName VERSION_NAME
     }
     buildTypes {
         libraryVariants.all { variant ->
-            variant.outputs.each { output ->
+            variant.outputs.all { output ->
                 def filename = output.outputFile.name
                 filename = filename.replace('library-', libPrefix).replace('.aar', '-' + defaultConfig.versionName + '.aar')
-                output.outputFile = new File(output.outputFile.parent, filename)
+                outputFileName = filename
             }
         }
 
@@ -32,8 +32,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIBRARY}"
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
-    compile 'org.jsoup:jsoup:1.9.2'
+    compile 'org.jsoup:jsoup:1.11.2'
 }
 apply from: './br.gradle'

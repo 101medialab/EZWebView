@@ -3,15 +3,15 @@ repositories {
     maven { url "http://dl.bintray.com/jjhesk/maven" }
 }
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.hkm.ezwebviewsample"
         minSdkVersion "${ANDROID_BUILD_MIN_SDK_VERSION}"
         targetSdkVersion "${ANDROID_BUILD_TARGET_SDK_VERSION}"
-        versionCode 6
-        versionName "1.2"
+        versionCode getVersionCode()
+        versionName VERSION_NAME
     }
     buildTypes {
         release {
@@ -23,10 +23,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIBRARY}"
+    compile 'org.apache.commons:commons-lang3:3.5'
 
-    compile 'commons-io:commons-io:2.4'
+    compile 'commons-io:commons-io:2.5'
     compile 'io.card:android-sdk:5.5.1'
 
     compile project(':library')
