@@ -1,6 +1,6 @@
-Advanced Webview [![Build Status](https://travis-ci.org/jjhesk/EZWebView.svg?branch=master)](https://travis-ci.org/jjhesk/EZWebView)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)[ ![Download](https://api.bintray.com/packages/jjhesk/maven/ezwebviewv/images/download.svg) ](https://bintray.com/jjhesk/maven/ezwebviewv/_latestVersion)
+Advanced Webview [![GitHub Actions Badge](https://github.com/101medialab/android-ezwebview/workflows/Android%20CI/badge.svg)](https://github.com/101medialab/android-ezwebview/actions?workflow=Android+CI)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)[ ![Download](https://api.bintray.com/packages/jjhesk/maven/ezwebviewv/images/download.svg) ](https://bintray.com/jjhesk/maven/ezwebviewv/_latestVersion)
 ======
-Lastest Version v1.4.1
+Lastest Version v1.6.4
 =======
 
 Highlights
@@ -17,7 +17,7 @@ Remote Repo
 ```
 Dependency
 ```gradle
-   compile 'com.hkm.ezwebview:ezwebviewv:1.3.6'
+   implementation 'com.hkm.ezwebview:ezwebviewv:1.3.6'
 ```
 
 
