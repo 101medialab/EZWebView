@@ -10,15 +10,10 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,9 +22,6 @@ import android.widget.Toast;
 
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public abstract class HBClient extends PreventLeakClient<Activity> {
@@ -117,6 +109,11 @@ public abstract class HBClient extends PreventLeakClient<Activity> {
                 userName = haup[0];
                 userPass = haup[1];
             }
+        }
+
+        if (isInternalTest) {
+            userName = super.userName;
+            userPass = super.userPass;
         }
 
         if (userName != null && userPass != null) {
